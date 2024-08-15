@@ -1,7 +1,10 @@
 package org.example;
 
+import org.example.input.InstructionParser;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        InstructionParser instructionParser = new InstructionParser();
+        instructionParser.instructionInput();
     }
 }
