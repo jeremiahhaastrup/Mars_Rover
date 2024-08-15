@@ -2,18 +2,17 @@ package org.example.input;
 
 import org.example.Plateau;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class PlateauParser {
-    public ArrayList<Plateau> plateauInput() {
+    public Map<Plateau, Integer> plateauInput() {
 
-        ArrayList<Plateau> result = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
+        HashMap<Plateau, Integer> result;
         while (true) {
             try {
+                result = new HashMap();
 
                 System.out.println("Enter The Measurements For The Plateau.");
                 System.out.println("The Plateau Size Has To Be Equal Or More Than 2 For X and Y");
@@ -27,24 +26,15 @@ public class PlateauParser {
                     throw new IllegalArgumentException();
                 }
 
+                result.put(Plateau.X, enteredXPoint);
+                result.put(Plateau.Y, enteredYPoint);
 
-                String enteredCompassPoints = Integer.toString(enteredXPoint,enteredYPoint);
-
-                for (char index : enteredCompassPoints.toCharArray()) {
-                    if (enteredCompassPoints.indexOf(index) == 0) {
-                        result.add(Plateau.X);
-                    }
-                    if (enteredCompassPoints.indexOf(index) == 1) {
-                        result.add(Plateau.Y);
-                    }
-                }
-
+                System.out.println(result);
                 scanner.close();
                 break;
 
             } catch (InputMismatchException e) {
                 System.err.println("Incorrect Format Houston! Try Again");
-
             }
         }
         return result;
