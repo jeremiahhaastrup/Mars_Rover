@@ -7,17 +7,18 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class InstructionParser {
-    public ArrayList<Instruction> instructionInput() {
-        ArrayList<Instruction> result = new ArrayList<>();
 
+    ArrayList<Instruction> result;
+    private Scanner scanner;
+
+    public InstructionParser(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public ArrayList<Instruction> instructionInput() {
+        result = new ArrayList<>();
         while(true) {
             try {
-                Scanner scanner = new Scanner(System.in);
-
-                System.out.println("Enter The Instructions For The Rover.");
-                System.out.println("R: Spin Right at 90 degrees.");
-                System.out.println("L: Spin Left at 90 degrees.");
-                System.out.println("M: Move Forward by One Grid Point");
                 String enteredInstruction = scanner.nextLine();
 
                 for (char index : enteredInstruction.toCharArray()) {
@@ -28,15 +29,13 @@ public class InstructionParser {
                     } else if (index == 'M') {
                         result.add(Instruction.M);
                     } else {
-                        throw new InputMismatchException();
+                        throw new InputMismatchException("Invalid Instruction For Rover");
                     }
                 }
-
-                scanner.close();
                 break;
 
             } catch (InputMismatchException e) {
-                System.out.println("Incorrect Format Houston. Try Again " + e);
+                System.out.println("Incorrect Instructions Houston! Try Again.");
             }
         }
         return result;
