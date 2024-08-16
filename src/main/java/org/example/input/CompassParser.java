@@ -1,6 +1,7 @@
 package org.example.input;
 
 import org.example.Compass;
+import org.example.Position;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,39 +9,40 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CompassParser {
-    public HashMap<Compass, Character> compassInput() {
 
-        HashMap<Compass, Character> result;
+    HashMap<Compass, Position> result;
+    private Scanner scanner;
+
+    public CompassParser(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public HashMap<Compass, Position> compassInput() {
 
         while(true) {
             try {
                 result = new HashMap<>();
-                Scanner scanner = new Scanner(System.in);
 
-                System.out.println("Enter The Compass Point For The Rover.");
-                System.out.println("W: West.");
-                System.out.println("E: East.");
-                System.out.println("N: North.");
-                System.out.println("S: South.");
-                char enteredCompassPoint = scanner.next().charAt(0);
+                int xCoordinate = scanner.nextInt();
+                int yCoordinate = scanner.nextInt();
+                char enteredCompassPoint = scanner.next().toUpperCase().charAt(0);
+                scanner.nextLine();
 
-                if (enteredCompassPoint == 'W') {
-                    result.put(Compass.W, enteredCompassPoint);
-                } else if (enteredCompassPoint == 'E') {
-                    result.put(Compass.W, enteredCompassPoint);
-                } else if (enteredCompassPoint == 'S') {
-                    result.put(Compass.S, enteredCompassPoint);
-                } else if (enteredCompassPoint == 'N') {
-                    result.put(Compass.N, enteredCompassPoint);
-                } else {
-                    throw new InputMismatchException();
-                }
-                System.out.println(result);
-                scanner.close();
+                Compass compassDirection = switch (enteredCompassPoint) {
+                    case 'W' -> Compass.W;
+                    case 'E' -> Compass.E;
+                    case 'N' -> Compass.N;
+                    case 'S' -> Compass.S;
+                    default -> throw new InputMismatchException("Invalid Compass Direction Houston!! Try Again!");
+                };
+
+                Position position = new Position(xCoordinate, yCoordinate, compassDirection);
+                result.put(compassDirection, position);
                 break;
 
             } catch (InputMismatchException e) {
-                System.err.println("Incorrect Format Houston! Try Again" + e);
+                System.out.println("Incorrect Compass Coordinates Houston! Try Again.");
+                scanner.nextLine();
             }
         }
         return result;
