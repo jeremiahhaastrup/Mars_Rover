@@ -4,5 +4,5 @@ public enum Compass {
     W,
     E,
     N,
-    S
+    S,
 }
