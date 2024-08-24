@@ -1,6 +1,7 @@
 package org.example;
 
-import org.example.logic.Rover;
+import org.example.type.Compass;
+import org.example.logic.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ class PositionTest {
     @Test
     @DisplayName("Test the rover moving forward whilst facing East")
     void moveForwardAndFacingEast() {
-        Position position = new Position(3,3,Compass.E);
+        Position position = new Position(3,3, Compass.E);
 
         var actual = position.moveForward(Compass.E);
         var expected = new Position(4,3,Compass.E);

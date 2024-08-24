@@ -1,6 +1,6 @@
-package org.example;
+package org.example.logic;
 
-import org.example.logic.Rover;
+import org.example.type.Compass;
 
 public class MissionControl {
     Compass compass;

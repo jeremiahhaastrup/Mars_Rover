@@ -1,7 +1,7 @@
 package org.example.input;
 
-import org.example.Compass;
-import org.example.Position;
+import org.example.logic.Position;
+import org.example.type.Compass;
 import org.junit.jupiter.api.*;
 
 import java.io.*;

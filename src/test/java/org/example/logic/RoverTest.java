@@ -1,8 +1,7 @@
 package org.example.logic;
 
-import org.example.Compass;
-import org.example.Instruction;
-import org.junit.jupiter.api.BeforeEach;
+import org.example.type.Compass;
+import org.example.type.Instruction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

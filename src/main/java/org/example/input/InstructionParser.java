@@ -1,6 +1,6 @@
 package org.example.input;
 
-import org.example.Instruction;
+import org.example.type.Instruction;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;

@@ -1,8 +1,7 @@
 package org.example.logic;
 
-import org.example.Compass;
-import org.example.Instruction;
-import org.example.Position;
+import org.example.type.Compass;
+import org.example.type.Instruction;
 import org.example.interfaces.Vehicle;
 
 public class Rover implements Vehicle {
@@ -14,6 +13,10 @@ public class Rover implements Vehicle {
 
     public Rover(Compass initialCompass) {
         this.compass = initialCompass;
+    }
+
+    public Compass getCompass() {
+        return compass;
     }
 
     public String getName() {
@@ -76,7 +79,4 @@ public class Rover implements Vehicle {
         };
     }
 
-    public Compass getCompass() {
-        return compass;
-    }
 }

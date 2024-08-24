@@ -1,8 +1,6 @@
 package org.example.input;
 
-import org.example.Compass;
-import org.example.Instruction;
-import org.example.Position;
+import org.example.type.Instruction;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +11,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;

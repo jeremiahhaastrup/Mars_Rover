@@ -1,6 +1,6 @@
 package org.example.input;
 
-import org.example.PlateauSize;
+import org.example.type.PlateauSize;
 
 import java.util.*;
 
