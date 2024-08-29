@@ -2,82 +2,103 @@ package org.example.logic;
 
 import org.example.type.Compass;
 import org.example.type.Instruction;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class RoverTest {
 
-    @Test
-    @DisplayName("Test Rover turning left As It Faces North")
-    void rotateLeftAsRoverFacesNorth() {
-        Rover rover = new Rover(Compass.N);
-        rover.rotate(Instruction.L);
+    Rover rover;
+    Plateau plateau;
+    Position position;
 
-        assertEquals(Compass.W, rover.getCompass());
+
+    @BeforeEach
+    void setUp() {
+        rover = new Rover(Compass.N);
+        plateau = new Plateau(7,7);
+        position = new Position(5,5);
+        rover.position = position;
+        rover.plateau = plateau;
     }
 
     @Test
-    @DisplayName("Test Rover turning right As It Faces North")
-    void rotateRightAsRoverFacesNorth() {
-        Rover rover = new Rover(Compass.N);
-        rover.rotate(Instruction.R);
+    @DisplayName("Test Rover Turning Left")
+    void testRoverTurningLeft() {
 
+        rover.turnLeft();
+        assertEquals(Compass.W, rover.getCompass());
+
+        rover.turnLeft();
+        assertEquals(Compass.S, rover.getCompass());
+
+        rover.turnLeft();
         assertEquals(Compass.E, rover.getCompass());
     }
 
     @Test
-    @DisplayName("Test Rover turning left As It Faces West")
-    void rotateLeftAsRoverFacesWest() {
-        Rover rover = new Rover(Compass.W);
-        rover.rotate(Instruction.L);
+    @DisplayName("Test Rover Turning Right")
+    void testRoverTurningRight() {
 
-        assertEquals(Compass.S, rover.getCompass());
-    }
-
-    @Test
-    @DisplayName("Test Rover turning right As It Faces West")
-    void rotateRightAsRoverFacesWest() {
-        Rover rover = new Rover(Compass.W);
-        rover.rotate(Instruction.R);
-
-        assertEquals(Compass.N, rover.getCompass());
-    }
-
-    @Test
-    @DisplayName("Test Rover turning left As It Faces South")
-    void rotateLeftAsRoverFacesSouth() {
-        Rover rover = new Rover(Compass.S);
-        rover.rotate(Instruction.L);
-
+        rover.turnRight();
         assertEquals(Compass.E, rover.getCompass());
-    }
 
-    @Test
-    @DisplayName("Test Rover turning right As It Faces South")
-    void rotateRightAsRoverFacesSouth() {
-        Rover rover = new Rover(Compass.S);
-        rover.rotate(Instruction.R);
+        rover.turnRight();
+        assertEquals(Compass.S, rover.getCompass());
 
+        rover.turnRight();
         assertEquals(Compass.W, rover.getCompass());
     }
 
     @Test
-    @DisplayName("Test Rover turning left As It Faces East")
-    void rotateLeftAsRoverFacesEast() {
-        Rover rover = new Rover(Compass.E);
-        rover.rotate(Instruction.L);
+    @DisplayName("Test Rover Moving Forward")
+    void testRoverMovingForward() {
 
-        assertEquals(Compass.N, rover.getCompass());
+        rover.moveForward();
+        assertEquals(5, rover.position.getX());
+        assertEquals(6, rover.position.getY());
+
+        rover.compass = Compass.W;
+        rover.moveForward();
+        assertEquals(4, rover.position.getX());
+        assertEquals(6, rover.position.getY());
     }
 
     @Test
-    @DisplayName("Test Rover turning right As It Faces East")
-    void rotateRightAsRoverFacesEast() {
-        Rover rover = new Rover(Compass.E);
-        rover.rotate(Instruction.R);
+    @DisplayName("Test Instruction Commands")
+    public void testInstructionCommands() {
 
-        assertEquals(Compass.S, rover.getCompass());
+        ArrayList<Instruction> expectedInstruction = new ArrayList<>();
+
+        expectedInstruction.add(Instruction.R);
+        expectedInstruction.add(Instruction.M);
+        expectedInstruction.add(Instruction.M);
+        rover.instructionCommands(expectedInstruction);
+
+        assertAll(
+                () -> assertEquals(7, rover.position.getX()),
+                () -> assertEquals(5, rover.position.getY()),
+                () -> assertEquals(Compass.E, rover.getCompass())
+        );
+
     }
+
+    @Test
+    @DisplayName("Test Calculating Rover Position")
+    void testCalculateRoverPosition() {
+
+        Position newPosition = rover.calculatePosition();
+        assertEquals(5, newPosition.getX());
+        assertEquals(6, newPosition.getY());
+
+        rover.compass = Compass.E;
+        newPosition = rover.calculatePosition();
+        assertEquals(6, newPosition.getX());
+        assertEquals(5, newPosition.getY());
+    }
+
 }
