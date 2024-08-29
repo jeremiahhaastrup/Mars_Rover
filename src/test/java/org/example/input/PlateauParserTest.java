@@ -1,92 +1,70 @@
 package org.example.input;
 
 import org.example.type.PlateauSize;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.HashMap;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class PlateauParserTest {
 
-    private final InputStream systemIn = System.in;
-    private final PrintStream systemOut = System.out;
-    private ByteArrayInputStream testIn;
-    private ByteArrayOutputStream testOut;
+    PlateauParser plateauParser;
 
     @BeforeEach
-    void setUpOutput() {
-        testOut = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(testOut));
-    }
-
-    @AfterEach
-    void restoreSystemInputOutput() {
-        System.setIn(systemIn);
-        System.setOut(systemOut);
-    }
-
-    private void provideInput(String data) {
-        testIn = new ByteArrayInputStream(data.getBytes());
-        System.setIn(testIn);
+    void setUp() {
+        plateauParser = new PlateauParser();
     }
 
     @Test
     @DisplayName("Test valid plateau coordinates that are more than 1")
     void testValidPlateauCoordinates() {
-        provideInput("5 5\n");
-        PlateauParser parser = new PlateauParser(new Scanner(System.in));
-        HashMap<PlateauSize, Integer> result = parser.plateauInput();
+        var actual = plateauParser.plateauInput("5 5");
 
         HashMap<PlateauSize, Integer> expected = new HashMap<>();
         expected.put(PlateauSize.X, 5);
         expected.put(PlateauSize.Y, 5);
 
-        assertAll(
-                () -> assertEquals(expected.get(PlateauSize.X), result.get(PlateauSize.X)),
-                () -> assertEquals(expected.get(PlateauSize.Y), result.get(PlateauSize.Y))
-        );
-
+        assertEquals(expected, actual);
     }
 
     @Test
-    @DisplayName("Test invalid plateau X coordinate that is less than 2")
-    void testInvalidPlateauXCoordinates() {
-        provideInput("1 3\n");
-        PlateauParser parser = new PlateauParser(new Scanner(System.in));
+    @DisplayName("Test invalid when either plateau coordinates are less than 2")
+    void testInvalidPlateauCoordinatesThatAreLessThanTwo() {
+        Throwable invalidX = assertThrows(IllegalArgumentException.class, () -> plateauParser.plateauInput("1 5"));
+        Throwable invalidY = assertThrows(IllegalArgumentException.class, () -> plateauParser.plateauInput("5 1"));
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, parser::plateauInput);
-
-        assertEquals("Incorrect Format Houston! Try Again.", exception.getMessage());
+        assertAll(
+                () ->     assertNull(invalidX.getMessage()),
+                () ->     assertNull(invalidY.getMessage())
+        );
     }
 
     @Test
-    @DisplayName("Test both invalid plateau coordinates that are less than 2")
-    void testBothInvalidPlateauCoordinates() {
-        provideInput("1 1\n");
-        PlateauParser parser = new PlateauParser(new Scanner(System.in));
-        HashMap<PlateauSize, Integer> result = parser.plateauInput();
+    @DisplayName("Test invalid plateau X and Y coordinates that are both less than 2")
+    void testInvalidPlateauXAndYCoordinates() {
+        Throwable result = assertThrows(IllegalArgumentException.class, () -> plateauParser.plateauInput("1 1"));
+        assertNull(result.getMessage());
+    }
 
-        assertAll(
+    @Test
+    @DisplayName("Test 1 plateau coordinate inputted")
+    void testOnePlateauCoordinateInputted() {
 
-        );
-
+        Throwable result = assertThrows(ArrayIndexOutOfBoundsException.class, () -> plateauParser.plateauInput("5"));
+        assertEquals("Index 1 out of bounds for length 1", result.getMessage());
     }
 
     @Test
     @DisplayName("Test no plateau X coordinate input")
-    void testNoPlateauXCoordinatesInput() {
-        provideInput("1 1\n");
-        PlateauParser parser = new PlateauParser(new Scanner(System.in));
-        HashMap<PlateauSize, Integer> result = parser.plateauInput();
+    void testNoPlateauCoordinatesInputted() {
 
-        assertTrue(result.isEmpty(), "Result should be empty for completely invalid input coordinates");
-
+        Throwable result = assertThrows(NumberFormatException.class, () -> plateauParser.plateauInput(""));
+        assertEquals("For input string: \"\"", result.getMessage());
     }
+
 
 }
