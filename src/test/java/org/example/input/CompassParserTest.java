@@ -36,10 +36,10 @@ class CompassParserTest {
     }
 
     @Test
-    @DisplayName("Test invalid when either plateau coordinates are less than 2")
-    void testInvalidPlateauCoordinatesThatAreLessThanTwo() {
-        Throwable invalidX = assertThrows(IllegalArgumentException.class, () -> compassParser.compassInput("1 5 S"));
-        Throwable invalidY = assertThrows(IllegalArgumentException.class, () -> compassParser.compassInput("5 1 S"));
+    @DisplayName("Test invalid when either plateau coordinates are less than 0")
+    void testInvalidPlateauCoordinatesThatAreLessThanZero() {
+        Throwable invalidX = assertThrows(IllegalArgumentException.class, () -> compassParser.compassInput("-1 5 S"));
+        Throwable invalidY = assertThrows(IllegalArgumentException.class, () -> compassParser.compassInput("5 -1 S"));
 
         assertAll(
                 () ->     assertNull(invalidX.getMessage()),
@@ -48,9 +48,9 @@ class CompassParserTest {
     }
 
     @Test
-    @DisplayName("Test invalid plateau X and Y coordinates that are both less than 2")
+    @DisplayName("Test invalid plateau X and Y coordinates that are both less than 0")
     void testInvalidPlateauXAndYCoordinates() {
-        Throwable result = assertThrows(IllegalArgumentException.class, () -> compassParser.compassInput("1 1 S"));
+        Throwable result = assertThrows(IllegalArgumentException.class, () -> compassParser.compassInput("-1 -1 S"));
         assertNull(result.getMessage());
     }
 
