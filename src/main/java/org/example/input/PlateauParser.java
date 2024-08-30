@@ -16,7 +16,7 @@ public class PlateauParser {
 
         result = new HashMap<>();
 
-        if (enteredXPoint < 2 || enteredYPoint < 2) {
+        if (enteredXPoint <= 2 || enteredYPoint <= 2) {
             throw new IllegalArgumentException();
         }
 
