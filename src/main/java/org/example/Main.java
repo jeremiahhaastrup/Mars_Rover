@@ -38,8 +38,9 @@ public class Main {
                     String plateauInput = scanner.nextLine();
 
                     String[] plateauSizeInput = plateauInput.trim().split("\\s+");
-                    if (plateauSizeInput.length != 2) {
-                        throw new InputMismatchException("Please Enter Exactly Two Integers Separated By A Space.");
+                    if (plateauSizeInput.length != 2 ||
+                            Integer.parseInt(plateauSizeInput[0]) <= 2 || Integer.parseInt(plateauSizeInput[1]) <= 2) {
+                        throw new InputMismatchException("Please Enter Exactly Two Integers Separated By A Space and More Than 2.");
                     }
                     HashMap<PlateauSize, Integer> plateauHashMapSize = plateauParser.plateauInput(plateauInput);
                     plateau = new Plateau(plateauHashMapSize.get(PlateauSize.X), plateauHashMapSize.get(PlateauSize.Y));
@@ -79,8 +80,8 @@ public class Main {
                     HashMap<Compass, Position> roverOnePosition = compassParser.compassInput(roverOnePositionInput);
                     Position position = roverOnePosition.values().iterator().next();
 
-                    if (position.getX() <= 2 || position.getX() >= plateau.getWidth() - 1 ||
-                            position.getY() <= 2 || position.getY() >= plateau.getHeight() - 1) {
+                    if (position.getX() < 0 || position.getX() >= plateau.getWidth() - 1 ||
+                            position.getY() < 0 || position.getY() >= plateau.getHeight() - 1) {
                         throw new InputMismatchException("Rover's Initial Position Must Be Greater Than 2 And Less Than Plateau Size Minus 1 For Each Coordinate.");
                     }
                     rover1 = new Rover(roverOnePosition.keySet().iterator().next());
@@ -137,8 +138,8 @@ public class Main {
                     HashMap<Compass, Position> roverTwoPosition = compassParser.compassInput(roverTwoPositionInput);
                     Position position = roverTwoPosition.values().iterator().next();
 
-                    if (position.getX() <= 2 || position.getX() >= plateau.getWidth() - 1 ||
-                            position.getY() <= 2 || position.getY() >= plateau.getHeight() - 1) {
+                    if (position.getX() < 0 || position.getX() >= plateau.getWidth() - 1 ||
+                            position.getY() < 0 || position.getY() >= plateau.getHeight() - 1) {
                         throw new InputMismatchException("Rover's Initial Position Must Be Greater Than 2 And Less Than Plateau Size Minus 1 For Each Coordinate.");
                     }
                     roverTwo = new Rover(roverTwoPosition.keySet().iterator().next());
