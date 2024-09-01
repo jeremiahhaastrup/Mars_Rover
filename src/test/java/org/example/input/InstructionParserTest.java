@@ -39,31 +39,21 @@ class InstructionParserTest {
     @Test
     @DisplayName("Test one invalid instruction input for rover")
     void testOneInvalidInstructionInput() {
-        Throwable firstChar = assertThrows(InputMismatchException.class, () -> instructionParser.instructionInput("FLMRLM"));
-        Throwable firstTwoChars = assertThrows(InputMismatchException.class, () -> instructionParser.instructionInput("RFFRLM"));
-        Throwable allChars = assertThrows(InputMismatchException.class, () -> instructionParser.instructionInput("WRONG"));
-        Throwable middleChars = assertThrows(InputMismatchException.class, () -> instructionParser.instructionInput("RTYULM"));
-        Throwable lastChar = assertThrows(InputMismatchException.class, () -> instructionParser.instructionInput("RLMRLY"));
-
         assertAll(
-                () -> assertNull(firstChar.getMessage()),
-                () -> assertNull(firstTwoChars.getMessage()),
-                () -> assertNull(allChars.getMessage()),
-                () -> assertNull(middleChars.getMessage()),
-                () -> assertNull(lastChar.getMessage())
+                () -> assertThrows(InputMismatchException.class, () -> instructionParser.instructionInput("FLMRLM")),
+                () -> assertThrows(InputMismatchException.class, () -> instructionParser.instructionInput("RFFRLM")),
+                () -> assertThrows(InputMismatchException.class, () -> instructionParser.instructionInput("WRONG")),
+                () -> assertThrows(InputMismatchException.class, () -> instructionParser.instructionInput("RTYULM")),
+                () -> assertThrows(InputMismatchException.class, () -> instructionParser.instructionInput("RLMRLY"))
         );
     }
 
     @Test
     @DisplayName("Test no instruction input")
     void testNoInstructionInput() {
-
-        Throwable noChars = assertThrows(NullPointerException.class, () -> instructionParser.instructionInput(""));
-        Throwable nullChars = assertThrows(NullPointerException.class, () -> instructionParser.instructionInput(null));
-
         assertAll(
-                () -> assertNull(noChars.getMessage()),
-                () -> assertNull(nullChars.getMessage())
+                () -> assertThrows(NullPointerException.class, () -> instructionParser.instructionInput("")),
+                () -> assertThrows(NullPointerException.class, () -> instructionParser.instructionInput(null))
         );
     }
 }

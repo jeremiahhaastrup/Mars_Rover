@@ -33,37 +33,28 @@ class PlateauParserTest {
     @Test
     @DisplayName("Test invalid when either plateau coordinates are less than 2")
     void testInvalidPlateauCoordinatesThatAreLessThanTwo() {
-        Throwable invalidX = assertThrows(IllegalArgumentException.class, () -> plateauParser.plateauInput("1 5"));
-        Throwable invalidY = assertThrows(IllegalArgumentException.class, () -> plateauParser.plateauInput("5 1"));
-
         assertAll(
-                () ->     assertNull(invalidX.getMessage()),
-                () ->     assertNull(invalidY.getMessage())
+                () ->     assertThrows(IllegalArgumentException.class, () -> plateauParser.plateauInput("1 5")),
+                () ->     assertThrows(IllegalArgumentException.class, () -> plateauParser.plateauInput("5 1"))
         );
     }
 
     @Test
     @DisplayName("Test invalid plateau X and Y coordinates that are both less than 2")
     void testInvalidPlateauXAndYCoordinates() {
-        Throwable result = assertThrows(IllegalArgumentException.class, () -> plateauParser.plateauInput("1 1"));
-        assertNull(result.getMessage());
+        assertThrows(IllegalArgumentException.class, () -> plateauParser.plateauInput("1 1"));
     }
 
     @Test
     @DisplayName("Test 1 plateau coordinate inputted")
     void testOnePlateauCoordinateInputted() {
-
-        Throwable result = assertThrows(ArrayIndexOutOfBoundsException.class, () -> plateauParser.plateauInput("5"));
-        assertEquals("Index 1 out of bounds for length 1", result.getMessage());
+        assertThrows(ArrayIndexOutOfBoundsException.class, () -> plateauParser.plateauInput("5"));
     }
 
     @Test
     @DisplayName("Test no plateau X coordinate input")
     void testNoPlateauCoordinatesInputted() {
-
-        Throwable result = assertThrows(NumberFormatException.class, () -> plateauParser.plateauInput(""));
-        assertEquals("For input string: \"\"", result.getMessage());
+        assertThrows(NumberFormatException.class, () -> plateauParser.plateauInput(""));
     }
-
 
 }

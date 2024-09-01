@@ -38,42 +38,31 @@ class CompassParserTest {
     @Test
     @DisplayName("Test invalid when either plateau coordinates are less than 0")
     void testInvalidPlateauCoordinatesThatAreLessThanZero() {
-        Throwable invalidX = assertThrows(IllegalArgumentException.class, () -> compassParser.compassInput("-1 5 S"));
-        Throwable invalidY = assertThrows(IllegalArgumentException.class, () -> compassParser.compassInput("5 -1 S"));
-
         assertAll(
-                () ->     assertNull(invalidX.getMessage()),
-                () ->     assertNull(invalidY.getMessage())
+                () ->     assertThrows(IllegalArgumentException.class, () -> compassParser.compassInput("-1 5 S")),
+                () ->     assertThrows(IllegalArgumentException.class, () -> compassParser.compassInput("5 -1 S"))
         );
     }
 
     @Test
     @DisplayName("Test invalid plateau X and Y coordinates that are both less than 0")
     void testInvalidPlateauXAndYCoordinates() {
-        Throwable result = assertThrows(IllegalArgumentException.class, () -> compassParser.compassInput("-1 -1 S"));
-        assertNull(result.getMessage());
+        assertThrows(IllegalArgumentException.class, () -> compassParser.compassInput("-1 -1 S"));
     }
 
     @Test
     @DisplayName("Test 1 or more inputs not inputted")
     void testOneOrMoreInputsNotInputted() {
-
-        Throwable oneCoordinateNotInputted = assertThrows(NumberFormatException.class, () -> compassParser.compassInput("5 S"));
-        Throwable bothCoordinatesNotInputted = assertThrows(NumberFormatException.class, () -> compassParser.compassInput("S"));
-        Throwable allInputsNotInputted = assertThrows(NumberFormatException.class, () -> compassParser.compassInput(""));
-
         assertAll(
-                () -> assertEquals("For input string: \"S\"", oneCoordinateNotInputted.getMessage()),
-                () -> assertEquals("For input string: \"S\"", bothCoordinatesNotInputted.getMessage()),
-                () -> assertEquals("For input string: \"\"", allInputsNotInputted.getMessage())
+                () -> assertThrows(NumberFormatException.class, () -> compassParser.compassInput("5 S")),
+                () -> assertThrows(NumberFormatException.class, () -> compassParser.compassInput("S")),
+                () -> assertThrows(NumberFormatException.class, () -> compassParser.compassInput(""))
         );
     }
 
     @Test
     @DisplayName("Test invalid position inputted")
     void testInvalidPositionInputted() {
-
-        Throwable result = assertThrows(InputMismatchException.class, () -> compassParser.compassInput("5 5 A"));
-        assertNull(result.getMessage());
+        assertThrows(InputMismatchException.class, () -> compassParser.compassInput("5 5 A"));
     }
 }

@@ -38,7 +38,6 @@ class MissionControlTest {
     @Test
     @DisplayName("Test New Rover Position On Plateau")
     void testGetRoverPosition() {
-
         assertEquals("2 2 N", missionControl.getRoverPosition("RoverOne"));
     }
 
@@ -59,8 +58,7 @@ class MissionControlTest {
     @DisplayName("Test Executing Command For Non-Existent Rover")
     void testExecuteCommandForNonExistentRover() {
         ArrayList<Instruction> instructions = new ArrayList<>();
-        assertThrows(IllegalArgumentException.class, () -> {
-            missionControl.executeCommandForRover("NonExistentRover", instructions);
-        });
+
+        assertThrows(IllegalArgumentException.class, () -> missionControl.executeCommandForRover("NonExistentRover", instructions));
     }
 }
